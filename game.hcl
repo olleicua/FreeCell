@@ -10,12 +10,12 @@
 (process.stdin.setEncoding "utf8")
 
 (process.stdin.on "data"
-				  (# (input)
-					 (let (move (input.trim))
-					   (attempt
-						(try (game.move move)
-							 (game.auto-fill)
-							 (game.print))
-						(catch e
-						  (console.log "Invalid move")))
-					   (process.stdout.write prompt))))
+                  (# (input)
+                     (let (move (input.trim))
+                       (attempt
+                        (try (game.move move)
+                             (game.auto-fill)
+                             (game.print))
+                        (catch e
+                          (console.log "Invalid move")))
+                       (process.stdout.write prompt))))

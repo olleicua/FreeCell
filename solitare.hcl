@@ -16,8 +16,8 @@
        cells (deck.draw 4)
        foundations { "♣" null
                      "♢" null
-					 "♡" null
-					 "♠" null }
+                     "♡" null
+                     "♠" null }
        
        print
        (# ()
@@ -77,42 +77,42 @@
        
        move
        (# (m)
-		  (if (isnt 2 (size m)) (throw "Invalid move")
-			(let (from (first m)
-				  to (second m))
-			  
-			  (var from-card
-				   (cond
-					((contains? stacks from)
-					 (last (nth this.stacks (stacks.indexOf from))))
-					((contains? cells from)
-					 (nth this.cells (cells.indexOf from)))
-					(true (throw "Invalid move"))))
-			  
-			  (when (nil? from-card) (throw "Invalid move"))
-			  
-			  (cond
-			   ((contains? stacks to)
-				(if (or (zero? (size (nth this.stacks (stacks.indexOf to))))
-						((last (nth this.stacks (stacks.indexOf to))).precedes?
-						 from-card))
-					(begin
-					 ((nth this.stacks (stacks.indexOf to)).push from-card)
-					 (cond
-					  ((contains? stacks from)
-					   ((nth this.stacks (stacks.indexOf from)).pop))
-					  ((contains? cells from)
-					   (set this.cells (cells.indexOf from) null))))
-				  (throw "Invalid move")))
-			   ((contains? cells to)
-				(if (nil? (nth this.cells (cells.indexOf to)))
-					(begin
-					 (set this.cells (cells.indexOf to) from-card)
-					 (cond
-					  ((contains? stacks from)
-					   ((nth this.stacks (stacks.indexOf from)).pop))
-					  ((contains? cells from)
-					   (set this.cells (cells.indexOf from) null))))
-				  (throw "Invalid move")))
-			   (true (throw "Invalid move")))))) } )
-	   
+          (if (isnt 2 (size m)) (throw "Invalid move")
+            (let (from (first m)
+                  to (second m))
+              
+              (var from-card
+                   (cond
+                    ((contains? stacks from)
+                     (last (nth this.stacks (stacks.indexOf from))))
+                    ((contains? cells from)
+                     (nth this.cells (cells.indexOf from)))
+                    (true (throw "Invalid move"))))
+              
+              (when (nil? from-card) (throw "Invalid move"))
+              
+              (cond
+               ((contains? stacks to)
+                (if (or (zero? (size (nth this.stacks (stacks.indexOf to))))
+                        ((last (nth this.stacks (stacks.indexOf to))).precedes?
+                         from-card))
+                    (begin
+                     ((nth this.stacks (stacks.indexOf to)).push from-card)
+                     (cond
+                      ((contains? stacks from)
+                       ((nth this.stacks (stacks.indexOf from)).pop))
+                      ((contains? cells from)
+                       (set this.cells (cells.indexOf from) null))))
+                  (throw "Invalid move")))
+               ((contains? cells to)
+                (if (nil? (nth this.cells (cells.indexOf to)))
+                    (begin
+                     (set this.cells (cells.indexOf to) from-card)
+                     (cond
+                      ((contains? stacks from)
+                       ((nth this.stacks (stacks.indexOf from)).pop))
+                      ((contains? cells from)
+                       (set this.cells (cells.indexOf from) null))))
+                  (throw "Invalid move")))
+               (true (throw "Invalid move")))))) } )
+       
