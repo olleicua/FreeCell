@@ -17,5 +17,5 @@
                              (game.auto-fill)
                              (game.print))
                         (catch e
-                          (console.log "Invalid move")))
+                          (console.log e.message)))
                        (process.stdout.write prompt))))

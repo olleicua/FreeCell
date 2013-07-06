@@ -19,6 +19,43 @@
                      "♡" null
                      "♠" null }
        
+       select-card
+       (# (letter)
+          (cond
+           ((contains? stacks letter)
+            (last (nth this.stacks (stacks.indexOf letter))))
+           ((contains? cells letter)
+            (nth this.cells (cells.indexOf letter)))
+           (true (throw (format "space `~~` does not exist" [ letter ] )))))
+       
+       remove-card
+       (# (letter)
+          (cond
+           ((contains? stacks letter)
+            ((nth this.stacks (stacks.indexOf letter)).pop))
+           ((contains? cells letter)
+            (set this.cells (cells.indexOf letter) null))
+           (true (throw (format "space `~~` does not exist" [ letter ] )))))
+       
+       card-allowed?
+       (# (card space)
+          (cond
+           ((contains? stacks space)
+            (or (zero? (size (nth this.stacks (stacks.indexOf space))))
+                ((this.select-card space).precedes? card)))
+           ((contains? cells space)
+            (nil? (this.select-card space)))
+           (true (throw (format "space `~~` does not exist" [ space ] )))))
+       
+       place-card
+       (# (card space)
+          (cond
+           ((contains? stacks space)
+            ((nth this.stacks (stacks.indexOf space)).push card))
+           ((contains? cells space)
+            (set this.cells (cells.indexOf space) card))
+           (true (throw (format "space `~~` does not exist" [ space ] )))))
+       
        print
        (# ()
           (times (char 8)
@@ -77,42 +114,17 @@
        
        move
        (# (m)
-          (if (isnt 2 (size m)) (throw "Invalid move")
+          (if (isnt 2 (size m)) (throw "move must consist of two characters")
             (let (from (first m)
                   to (second m))
               
-              (var from-card
-                   (cond
-                    ((contains? stacks from)
-                     (last (nth this.stacks (stacks.indexOf from))))
-                    ((contains? cells from)
-                     (nth this.cells (cells.indexOf from)))
-                    (true (throw "Invalid move"))))
+              (var from-card (this.select-card from))
               
-              (when (nil? from-card) (throw "Invalid move"))
+              (when (nil? from-card)
+                (throw (format "no card located at position `~~`" [ from ] )))
               
-              (cond
-               ((contains? stacks to)
-                (if (or (zero? (size (nth this.stacks (stacks.indexOf to))))
-                        ((last (nth this.stacks (stacks.indexOf to))).precedes?
-                         from-card))
-                    (begin
-                     ((nth this.stacks (stacks.indexOf to)).push from-card)
-                     (cond
-                      ((contains? stacks from)
-                       ((nth this.stacks (stacks.indexOf from)).pop))
-                      ((contains? cells from)
-                       (set this.cells (cells.indexOf from) null))))
-                  (throw "Invalid move")))
-               ((contains? cells to)
-                (if (nil? (nth this.cells (cells.indexOf to)))
-                    (begin
-                     (set this.cells (cells.indexOf to) from-card)
-                     (cond
-                      ((contains? stacks from)
-                       ((nth this.stacks (stacks.indexOf from)).pop))
-                      ((contains? cells from)
-                       (set this.cells (cells.indexOf from) null))))
-                  (throw "Invalid move")))
-               (true (throw "Invalid move")))))) } )
-       
+              (if (this.card-allowed? from-card to)
+                  (begin
+                   (this.place-card from-card to)
+                   (this.remove-card from))
+                (throw (format "invalid move `~~`" [ m ] )))))) } )
