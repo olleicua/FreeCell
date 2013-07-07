@@ -15,7 +15,11 @@
                        (attempt
                         (try (game.move move)
                              (game.auto-fill)
-                             (game.print))
+                             (if (game.won?)
+                                 (begin
+                                  (console.log "CONGRATULATIONS YOU WON!")
+                                  (process.exit))
+                               (game.print)))
                         (catch e
                           (console.log e.message)))
                        (process.stdout.write prompt))))

@@ -19,6 +19,9 @@
                      "♡" null
                      "♠" null }
        
+       won?
+       (# () (and (all this.stacks empty?) (all this.cells nil?)))
+       
        select-card
        (# (letter)
           (cond
