@@ -6,3 +6,5 @@ Usage:
     git clone git@github.com:olleicua/FreeCell.git
     cd FreeCell
     hcl -nu game.hcl
+
+This project is licensed under the [MIT License](http://opensource.org/licenses/MIT).
