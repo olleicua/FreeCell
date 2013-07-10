@@ -10,6 +10,7 @@
 
 (def stacks "abcdefgh")
 (def cells "ijklmnop")
+(def spaces (cat stacks cells))
 
 (set module.exports
      { stacks (map (range 8) (# () (deck.draw 6)))
@@ -21,7 +22,25 @@
        
        won?
        (# () (and (all this.stacks empty?) (all this.cells nil?)))
-       
+	   
+	   legal-moves 
+       (# ()
+		  (select
+		   (flatten
+			(map spaces
+				 (# (s)
+					(map (zip spaces
+							  (map (range 16) (# () s)))
+						 (# (p) (cat.apply undefined p))))))
+		   (# (m)
+			  (let (from-card (this.select-card (first m))
+					to (second m))
+				(and
+				 (object? from-card)
+				 (this.card-allowed? from-card to))))
+		   this))
+			  
+	   
        select-card
        (# (letter)
           (cond

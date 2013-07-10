@@ -15,11 +15,16 @@
                        (attempt
                         (try (game.move move)
                              (game.auto-fill)
-                             (if (game.won?)
-                                 (begin
-                                  (console.log "CONGRATULATIONS YOU WON!")
-                                  (process.exit))
-                               (game.print)))
+                             (cond
+							  ((game.won?)
+							   (begin
+								(console.log "CONGRATULATIONS YOU WON!")
+								(process.exit)))
+							   ((empty? (game.legal-moves))
+								(begin
+								 (console.log "GAME OVER YOU LOSE!")
+								 (process.exit)))
+							   (true (game.print))))
                         (catch e
                           (console.log e.message)))
                        (process.stdout.write prompt))))
