@@ -22,25 +22,25 @@
        
        won?
        (# () (and (all this.stacks empty?) (all this.cells nil?)))
-	   
-	   legal-moves 
+       
+       legal-moves
        (# ()
-		  (select
-		   (flatten
-			(map spaces
-				 (# (s)
-					(map (zip spaces
-							  (map (range 16) (# () s)))
-						 (# (p) (cat.apply undefined p))))))
-		   (# (m)
-			  (let (from-card (this.select-card (first m))
-					to (second m))
-				(and
-				 (object? from-card)
-				 (this.card-allowed? from-card to))))
-		   this))
-			  
-	   
+          (select
+           (flatten
+            (map spaces
+                 (# (s)
+                    (map (zip spaces
+                              (map (range 16) (# () s)))
+                         (# (p) (cat.apply undefined p))))))
+           (# (m)
+              (let (from-card (this.select-card (first m))
+                    to (second m))
+                (and
+                 (object? from-card)
+                 (this.card-allowed? from-card to))))
+           this))
+       
+       
        select-card
        (# (letter)
           (cond
@@ -104,8 +104,6 @@
           (for (suit [ "♣" "♢" "♡" "♠" ] )
                (print-card (get this.foundations suit) "~~  "))
           (process.stdout.write "\n\n"))
-       
-       
        
        auto-fill
        (# ()
