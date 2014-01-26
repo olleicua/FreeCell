@@ -32,7 +32,7 @@
                           (flatten
                            (map (range 13)
                                 (# (rank)
-                                   (map [ "♣" "♢" "♡" "♠" ]
+                                   (map [ "♣" "♦" "♥" "♠" ]
                                         (# (suit) (Card.new rank suit)))))))
                      deck))
             

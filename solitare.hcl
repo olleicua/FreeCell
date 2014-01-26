@@ -1,12 +1,15 @@
 (def cards (load (compile "./cards.hcl")))
+(load "colors")
 
 (var deck (cards.Deck.new))
 (deck.shuffle)
 
 (def print-card (# (card format-string)
                    (process.stdout.write
-                    (format (or format-string "~~")
-                            [(or card "  ")]))))
+                    (get
+                     (format (or format-string "~~")
+                             [(or card "  ")])
+                     (if (and card (contains? ["♦" "♥"] card.suit)) "red" "black")))))
 
 (def stacks "abcdefgh")
 (def cells "ijklmnop")
@@ -16,8 +19,8 @@
      { stacks (map (range 8) (# () (deck.draw 6)))
        cells (deck.draw 4)
        foundations { "♣" null
-                     "♢" null
-                     "♡" null
+                     "♦" null
+                     "♥" null
                      "♠" null }
        
        won?
@@ -101,7 +104,7 @@
                  (print-card (nth this.cells col) "~~  "))
           (process.stdout.write "\n\n")
           
-          (for (suit [ "♣" "♢" "♡" "♠" ] )
+          (for (suit [ "♣" "♦" "♥" "♠" ] )
                (print-card (get this.foundations suit) "~~  "))
           (process.stdout.write "\n\n"))
        
