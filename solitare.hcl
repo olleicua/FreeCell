@@ -4,12 +4,15 @@
 (var deck (cards.Deck.new))
 (deck.shuffle)
 
+(def color-card (# (card)
+                   (get (cat (card.toString) " ")
+                        (if (contains? ["♦" "♥"] card.suit)
+                            "red" "black")).whiteBG))
+
 (def print-card (# (card format-string)
                    (process.stdout.write
-                    (get
-                     (format (or format-string "~~")
-                             [(or card "  ")])
-                     (if (and card (contains? ["♦" "♥"] card.suit)) "red" "black")))))
+                    (format (or format-string "~~")
+                            [(if card (color-card card) "   ")]))))
 
 (def stacks "abcdefgh")
 (def cells "ijklmnop")
@@ -85,27 +88,27 @@
        (# ()
           (times (char 8)
                  (process.stdout.write
-                  (cat (String.fromCharCode (+ 97 char)) "   ")))
+                  (cat " " (String.fromCharCode (+ 97 char)) "  ").cyan.bold.magentaBG))
           (process.stdout.write "\n")
           
           (times (row (Math.max.apply this (pluck this.stacks "length")))
                  (times (col 8)
                         (print-card (nth (nth this.stacks col) row)
-                                    "~~  "))
+                                    "~~ "))
                  (process.stdout.write "\n"))
           (process.stdout.write "\n")
           
           (times (char 8)
                  (process.stdout.write
-                  (cat (String.fromCharCode (+ 105 char)) "   ")))
+                  (cat " " (String.fromCharCode (+ 105 char)) "  ").cyan.bold.magentaBG))
           (process.stdout.write "\n")
           
           (times (col 8)
-                 (print-card (nth this.cells col) "~~  "))
+                 (print-card (nth this.cells col) "~~ "))
           (process.stdout.write "\n\n")
           
           (for (suit [ "♣" "♦" "♥" "♠" ] )
-               (print-card (get this.foundations suit) "~~  "))
+               (print-card (get this.foundations suit) "~~ "))
           (process.stdout.write "\n\n"))
        
        auto-fill
