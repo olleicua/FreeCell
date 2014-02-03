@@ -25,7 +25,7 @@
                                 (begin
                                  (console.log "GAME OVER YOU LOSE!")
                                  (process.exit)))
-                               (true (game.print))))
+                               (true (nop))))
                         (catch e
                           (console.log e.message)))
                        (process.stdout.write prompt))))
