@@ -86,26 +86,29 @@
        
        print
        (# ()
+          (process.stdout.write "\n")
+          (process.stdout.write (string " ").magentaBG)
           (times (char 8)
                  (process.stdout.write
                   (cat " " (String.fromCharCode (+ 97 char)) "  ").cyan.bold.magentaBG))
-          (process.stdout.write "\n")
+          (process.stdout.write "\n ")
           
           (times (row (Math.max.apply this (pluck this.stacks "length")))
                  (times (col 8)
                         (print-card (nth (nth this.stacks col) row)
                                     "~~ "))
-                 (process.stdout.write "\n"))
+                 (process.stdout.write "\n "))
           (process.stdout.write "\n")
           
+          (process.stdout.write (string " ").magentaBG)
           (times (char 8)
                  (process.stdout.write
                   (cat " " (String.fromCharCode (+ 105 char)) "  ").cyan.bold.magentaBG))
-          (process.stdout.write "\n")
+          (process.stdout.write "\n ")
           
           (times (col 8)
                  (print-card (nth this.cells col) "~~ "))
-          (process.stdout.write "\n\n")
+          (process.stdout.write "\n\n ")
           
           (for (suit [ "♣" "♦" "♥" "♠" ] )
                (print-card (get this.foundations suit) "~~ "))
