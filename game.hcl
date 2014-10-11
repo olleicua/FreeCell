@@ -38,7 +38,9 @@
                   (# (input)
                      (let (move (input.trim))
                        (cond
-                        ((= move "help") (process.stdout.write (cat help-message "\n" prompt)))
+                        ((and (not (empty? move))
+                                (= 0 ((string "help").indexOf move)))
+                         (process.stdout.write (cat help-message "\n" prompt)))
                         ((and (not (empty? move))
                                 (= 0 ((string "quit").indexOf move)))
                          (begin
