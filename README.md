@@ -11,9 +11,7 @@ Hot Cocoa Lisp doesn't work with modern nodejs unfortunately but I missed this g
 Currently tested on:
 - [KDE](https://kde.org/) [SteamDeck](https://www.steamdeck.com/en/)
 - [Termux](https://termux.dev/en/) on an Android Pixel 3a
-
-I plan to test it on:
-- Mac OSX (I suspect the colors will need to work differently)
+- Mac OSX 3.2.1 (M1 aka ARM) (I suspect the colors will need to work differently)
 
 Legacy HCL stuff
 ===
