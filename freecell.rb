@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 BG_WHITE = "\033[47m"
 BLACK = "\033[30m"
 RED = "\033[31m"
