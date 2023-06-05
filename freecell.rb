@@ -194,9 +194,9 @@ begin
     input = gets&.chomp
     exit if input.nil? || input.match(/^(q|exit)/i)
 
-    if input[0].match(/^(\?|help)/i)
+    if input.match(/^(\?|help)/i)
       puts HELP_MESSAGE
-      continue
+      next
     end
 
     if game.attempt_move(input)
