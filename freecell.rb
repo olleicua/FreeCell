@@ -9,6 +9,8 @@ HELP_MESSAGE = [
   '  Type the letter above the card you would like',
   '  to move followed by the letter above the place',
   '  you would like to move it to.',
+  '  For example `dl` will attempt to move the bottom',
+  '  card of stack d to space l',
   '  Any card can go in any empty space.',
   '  If a card is at the bottom of a stack (a-h)',
   '  then the card of the same suit one rank lower',
@@ -20,7 +22,8 @@ HELP_MESSAGE = [
   '  You win when all cards have been removed.',
   '                     *  *  *',
   '  Type `quit or exit` to exit the game.',
-  '  Type `? or help` to display this message.'
+  '  Type `? or help` to display this message.',
+  '  Type `hint` for a list of possible moves'
 ].join("\n")
 
 class Card
@@ -93,7 +96,11 @@ class Game
   end
 
   def lost?
-    false # TODO: implement me
+    ('a'..'p').to_a.none? do |a|
+      ('a'..'p').to_a.any? do |b|
+        move_possible?("#{a}#{b}")
+      end
+    end
   end
 
   def over?
@@ -101,6 +108,25 @@ class Game
   end
 
   def attempt_move(move)
+    card, from, to = move_possible?(move)
+    return false unless card && from && to
+
+    remove_card(from)
+    add_card(card, to)
+    true
+  end
+
+  def possible_moves
+    ('a'..'p').to_a.map do |a|
+      ('a'..'p').to_a.map do |b|
+        "#{a}#{b}" if move_possible?("#{a}#{b}")
+      end
+    end.flatten.compact
+  end
+
+  private
+
+  def move_possible?(move)
     from, to = move.split('').first(2).map do |c|
       if c then c.ord - 'a'.ord else nil end
     end
@@ -112,11 +138,8 @@ class Game
     card = card_for_move(from)
     return false unless can_move?(card, to)
 
-    remove_card(from)
-    add_card(card, to)
+    [card, from, to]
   end
-
-  private
 
   def valid_from?(from)
     return false if from < 0
@@ -199,6 +222,11 @@ begin
       next
     end
 
+    if input.match(/^hint/i)
+      puts game.possible_moves.join(', ')
+      next
+    end
+
     if game.attempt_move(input)
       game.auto_play_foundations
       game.draw
@@ -209,4 +237,9 @@ begin
 rescue Interrupt
   exit
 end
-puts 'You Win!' # TODO: implement losing
+
+if game.won?
+  puts 'You Win!'
+else
+  puts 'You Lose :('
+end
