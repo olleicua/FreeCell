@@ -2,9 +2,11 @@ Update
 ===
 Hot Cocoa Lisp doesn't work with modern nodejs unfortunately but I missed this game so I re-implemented it in ruby
 
-    git clone git@github.com:olleicua/FreeCell.git
-    cd FreeCell
-    ruby freecell.rb
+    $ git clone git@github.com:olleicua/FreeCell.git
+    $ cd FreeCell
+    $ ruby freecell.rb
+
+(enter `help` or `?` for instructions)
 
 Currently tested on:
 - [KDE](https://kde.org/) [SteamDeck](https://www.steamdeck.com/en/)
