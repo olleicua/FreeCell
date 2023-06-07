@@ -35,7 +35,7 @@ class Card
   end
 
   def display_rank
-    @display_rank ||= ['A', *'2'..'9', '0', 'J', 'Q', 'K'][rank]
+    @display_rank ||= ['A', *'2'..'9', 'T', 'J', 'Q', 'K'][rank]
   end
 
   def color
